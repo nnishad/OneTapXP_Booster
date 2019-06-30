@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+Google Play game services IDs.
+Save this file as res/values/games-ids.xml in your project.
+-->
+<resources>
+    <!-- app_id -->
+    <string name="app_id" translatable="false">53286765302</string>
+    <!-- package_name -->
+    <string name="package_name" translatable="false">com.nightowldevelopers.onetapxpboost</string>
+    <!-- achievement Level 1 -->
+    <string name="achievement_level_1" translatable="false">CgkI9oWOwcYBEAIQAQ</string>
+    <!-- achievement Level 2 -->
+    <string name="achievement_level_2" translatable="false">CgkI9oWOwcYBEAIQAg</string>
+    <!-- achievement Level 3 -->
+    <string name="achievement_level_3" translatable="false">CgkI9oWOwcYBEAIQAw</string>
+    <!-- achievement Level 4 -->
+    <string name="achievement_level_4" translatable="false">CgkI9oWOwcYBEAIQBA</string>
+    <!-- achievement Level 5 -->
+    <string name="achievement_level_5" translatable="false">CgkI9oWOwcYBEAIQBQ</string>
+    <!-- achievement Level 6 -->
+    <string name="achievement_level_6" translatable="false">CgkI9oWOwcYBEAIQBg</string>
+    <!-- leaderboard Leaderboard -->
+    <string name="leaderboard_leaderboard" translatable="false">CgkI9oWOwcYBEAIQBw</string>
+</resources>
