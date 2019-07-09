@@ -36,6 +36,7 @@
             android:layout_marginTop="28dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
+            android:text="Hit It Up!"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
@@ -58,12 +59,11 @@
             style="@style/MainScreenButtonBlurb"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:text="@string/single_player_explanation"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.567"
+            app:layout_constraintHorizontal_bias="0.466"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_single_player_2" />
 
@@ -71,12 +71,12 @@
         <Button
             android:id="@+id/button_invite_players"
             style="@style/MainScreenButton"
-            android:layout_width="75dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="88dp"
-            android:background="@drawable/achi"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="92dp"
+            android:background="@drawable/achieve"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.107"
+            app:layout_constraintHorizontal_bias="0.156"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -89,10 +89,10 @@
             android:text="@string/invite_players_explanation"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.941"
+            app:layout_constraintHorizontal_bias="0.909"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_see_invitations"
-            app:layout_constraintVertical_bias="0.013" />
+            app:layout_constraintVertical_bias="0.014" />
 
         <Button
             android:id="@+id/button_see_invitations"
@@ -136,7 +136,7 @@
             android:text="@string/see_invitations_explanation"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.165"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_invite_players"
             app:layout_constraintVertical_bias="0.0" />

@@ -24,8 +24,8 @@
     <string name="invite_players">Show Leaderboard</string>
     <string name="see_invitations">Show achievements</string>
     <string name="quick_game_explanation">Get XP to 195</string>
-    <string name="invite_players_explanation">Get Your Leaderboard</string>
-    <string name="see_invitations_explanation">Get your achievement.</string>
+    <string name="invite_players_explanation">Your Leaderboard</string>
+    <string name="see_invitations_explanation">Get Your Achievement.</string>
     <string name="inv_popup_text">Incoming invitation!</string>
     <string name="accept_popup_invite">Accept!</string>
     <string name="sign_out">Sign Out</string>
