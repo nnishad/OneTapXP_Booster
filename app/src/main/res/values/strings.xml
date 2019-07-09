@@ -17,7 +17,7 @@
 <resources>
     <string name="app_name">One Tap XP Boost</string>
     <string name="game_title">Hit It Up!</string>
-    <string name="game_blurb">Under Development.</string>
+    <string name="game_blurb">You are few seconds away\n to won Max XP to your Account.</string>
     <string name="single_player_explanation">Get XP to Maxx</string>
     <string name="invite_players_explanation">Your Leaderboard</string>
     <string name="see_invitations_explanation">Get Your Achievement.</string>

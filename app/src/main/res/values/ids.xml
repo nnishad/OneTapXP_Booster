@@ -7,7 +7,6 @@ Save this file as res/values/games-ids.xml in your project.
     <!-- app_id -->
     <string name="app_id" translatable="false">53286765302</string>
     <!-- package_name -->
-    <string name="package_name" translatable="false">com.nightowldevelopers.onetapxpboost</string>
     <!-- achievement Level 1 -->
     <string name="achievement_level_1" translatable="false">CgkI9oWOwcYBEAIQAQ</string>
     <!-- achievement Level 2 -->
