@@ -7,6 +7,7 @@ Save this file as res/values/games-ids.xml in your project.
     <!-- app_id -->
     <string name="app_id" translatable="false">53286765302</string>
     <!-- package_name -->
+    <string name="package_name" translatable="false">com.nightowldevelopers.onetapxpboost</string>
     <!-- achievement Level 1 -->
     <string name="achievement_level_1" translatable="false">CgkI9oWOwcYBEAIQAQ</string>
     <!-- achievement Level 2 -->
@@ -20,7 +21,9 @@ Save this file as res/values/games-ids.xml in your project.
     <!-- achievement Max Level -->
     <string name="achievement_max_level" translatable="false">CgkI9oWOwcYBEAIQBg</string>
     <!-- achievement Instagram Achievement -->
+    <string name="achievement_instagram_achievement" translatable="false">CgkI9oWOwcYBEAIQCA</string>
     <!-- achievement Rate on Playstore -->
+    <string name="achievement_rate_on_playstore" translatable="false">CgkI9oWOwcYBEAIQCQ</string>
     <!-- leaderboard Leaderboard -->
     <string name="leaderboard_leaderboard" translatable="false">CgkI9oWOwcYBEAIQBw</string>
 </resources>
