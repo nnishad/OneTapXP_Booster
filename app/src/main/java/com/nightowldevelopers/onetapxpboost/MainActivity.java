@@ -41,14 +41,14 @@ public class MainActivity extends Activity implements
     protected static final int RC_LEADERBOARD_UI = 9004;
     final static String TAG = "OneTapXPBoost";
     final static int[] CLICKABLES = {
-            R.id.button_accept_popup_invitation, R.id.button_invite_players,
+           R.id.button_invite_players,
             R.id.button_see_invitations, R.id.button_sign_in,
             R.id.button_sign_out,  //R.id.button_single_player,
             R.id.button_single_player_2
     };
     final static int[] SCREENS = {
-            R.id.screen_game, R.id.screen_main, R.id.screen_sign_in,
-            R.id.screen_wait
+            R.id.screen_main, R.id.screen_sign_in,
+
     };
     final static int GAME_DURATION = 20; // game duration, seconds.
     private static final int RC_SIGN_IN = 9001;
@@ -56,27 +56,25 @@ public class MainActivity extends Activity implements
     protected AchievementsClient mAchievementsClient;
     protected LeaderboardsClient mLeaderboardsClient;
     protected PlayersClient mPlayersClient;
-    // Room ID where the currently active game is taking place; null if we're
-    // not playing.
+
     String mRoomId = null;
 
-    // Holds the configuration of the current room.
+
     RoomConfig mRoomConfig;
 
-    // Are we playing in multiplayer mode?
+
     boolean mMultiplayer = false;
 
-    // The participants in the currently active game
+
     ArrayList<Participant> mParticipants = null;
 
-    // My participant ID in the currently active game
+
     String mMyId = null;
 
-    // If non-null, this is the id of the invitation we received via the
-    // invitation listener
+
     String mIncomingInvitationId = null;
 
-    // Message buffer for sending messages
+
     byte[] mMsgBuf = new byte[2];
     // The currently signed in account, used to check the account has changed outside of this activity when resuming.
     GoogleSignInAccount mSignedInAccount = null;
@@ -119,14 +117,7 @@ public class MainActivity extends Activity implements
         signInSilently();
     }
 
-    // Handle the result of the "Select players UI" we launched when the user clicked the
-    // "Invite friends" button. We react by creating a room with those players.
 
-
-    // Handle the result of the invitation inbox UI, where the player can pick an invitation
-    // to accept. We react by accepting the selected invitation, if any.
-
-    // Accept the given invitation.
 
     @Override
     protected void onPause() {
@@ -143,20 +134,7 @@ public class MainActivity extends Activity implements
         startActivityForResult(mGoogleSignInClient.getSignInIntent(), RC_SIGN_IN);
     }
 
-    // Leave the room.
 
-    // Show the waiting room UI to track the progress of other players as they enter the
-    // room and get connected.
-
-
-    /*
-     * CALLBACKS SECTION. This section shows how we implement the several games
-     * API callbacks.
-     */
-
-    // Check the sample to ensure all placeholder ids are are updated with real-world values.
-    // This is strictly for the purpose of the samples; you don't need this in a production
-    // application.
     private void checkPlaceholderIds() {
         StringBuilder problems = new StringBuilder();
 
@@ -238,10 +216,10 @@ public class MainActivity extends Activity implements
             case R.id.button_see_invitations:
                 showAchievements();
                 break;
-            case R.id.button_accept_popup_invitation:
+          /*  case R.id.button_accept_popup_invitation:
                 // user wants to accept the invitation shown on the invitation popup
                 // (the one we got through the OnInvitationReceivedListener).
-                break;
+                break;*/
             //case R.id.button_quick_game:
             // user wants to play against a random opponent right now
             //startQuickGame();
@@ -325,9 +303,9 @@ public class MainActivity extends Activity implements
     // Handle back key to make sure we cleanly leave a game if we are in the middle of one
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent e) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && mCurScreen == R.id.screen_game) {
+       /* if (keyCode == KeyEvent.KEYCODE_BACK && mCurScreen == R.id.screen_game) {
             return true;
-        }
+        }*/
         return super.onKeyDown(keyCode, e);
     }
 
@@ -395,40 +373,7 @@ public class MainActivity extends Activity implements
         };
     }
 
-    // Reset game variables in preparation for a new game.
 
-
-    // Start the gameplay phase of the game.
-
-
-    // Game tick -- update countdown, check if game ended.
-
-    // indicates the player scored one point
-
-    /*
-     * COMMUNICATIONS SECTION. Methods that implement the game's network
-     * protocol.
-     */
-
-    // Score of other participants. We update this as we receive their scores
-    // from the network.
-
-    // Participants who sent us their final score.
-
-
-    // Called when we receive a real-time message from the network.
-    // Messages in our game are made up of 2 bytes: the first one is 'F' or 'U'
-    // indicating
-    // whether it's a final or interim score. The second byte is the score.
-    // There is also the
-    // 'S' message, which indicates that the game should start.
-
-    // Broadcast my score to everybody else.
-
-
-    /*
-     * UI SECTION. Methods that implement the game's UI.
-     */
 
     public void onDisconnected() {
         Log.d(TAG, "onDisconnected()");
@@ -474,7 +419,6 @@ public class MainActivity extends Activity implements
             mSignedInAccount = googleSignInAccount;
             mAchievementsClient = Games.getAchievementsClient(this, googleSignInAccount);
             GamesClient gamesClient = Games.getGamesClient(MainActivity.this, googleSignInAccount);
-            gamesClient.setViewForPopups(findViewById(R.id.gps_popup));
             mLeaderboardsClient = Games.getLeaderboardsClient(this, googleSignInAccount);
 
             // update the clients
@@ -495,11 +439,7 @@ public class MainActivity extends Activity implements
                     .addOnFailureListener(createFailureListener("There was a problem getting the player id!"));
         }
 
-        // register listener so we are notified if we receive an invitation to play
-        // while we are in the game
 
-        // get the invitation from the connection hint
-        // Retrieve the TurnBasedMatch from the connectionHint
 
     }
 
@@ -516,13 +456,9 @@ public class MainActivity extends Activity implements
             // no invitation, so no popup
             showInvPopup = false;
         } else if (mMultiplayer) {
-            // if in multiplayer, only show invitation on main screen
             showInvPopup = (mCurScreen == R.id.screen_main);
         } else {
-            // single-player: show on main screen and gameplay screen
-            showInvPopup = (mCurScreen == R.id.screen_main || mCurScreen == R.id.screen_game);
-        }
-        findViewById(R.id.invitation_popup).setVisibility(showInvPopup ? View.VISIBLE : View.GONE);
+       }
     }
 
     void switchToMainScreen() {
@@ -533,24 +469,7 @@ public class MainActivity extends Activity implements
         }
     }
 
-    // updates the label that shows my score
 
-
-    // formats a score as a three-digit number
-
-    // updates the screen with the scores from our peers
-
-
-    /*
-     * MISC SECTION. Miscellaneous methods.
-     */
-
-
-    // Sets the flag to keep this screen on. It's recommended to do that during
-    // the
-    // handshake when setting up a game, because if the screen turns off, the
-    // game will be
-    // cancelled.
     void keepScreenOn() {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
