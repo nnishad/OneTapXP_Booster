@@ -113,7 +113,7 @@ public class MainActivity extends Activity implements
 
                 try {
                     startActivity(likeIng);
-                    Toast.makeText(MainActivity.this,"Follow the Account \n& Unlock your Achievement",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this,"Follow Us \n& Unlock your Achievement",Toast.LENGTH_SHORT).show();
                /*     Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                             .unlock(getString(R.string.achievement_instagram_achievement));
                     Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
