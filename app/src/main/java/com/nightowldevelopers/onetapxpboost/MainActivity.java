@@ -2,12 +2,17 @@ package com.nightowldevelopers.onetapxpboost;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -43,7 +48,7 @@ public class MainActivity extends Activity implements
     final static int[] CLICKABLES = {
            R.id.button_invite_players,
             R.id.button_see_invitations, R.id.button_sign_in,
-            R.id.button_sign_out,  //R.id.button_single_player,
+            R.id.button_sign_out,
             R.id.button_single_player_2
     };
     final static int[] SCREENS = {
@@ -94,7 +99,39 @@ public class MainActivity extends Activity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Button insta = findViewById(R.id.button_instagram);
+        Button rating = findViewById(R.id.rating);
+      //  Button insta = findViewById(R.id.button_instagram);
+        insta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               // Toast.makeText(MainActivity.this,"Follow the Account \n andUnlocking Achievement",Toast.LENGTH_SHORT).show();
+                Uri uri = Uri.parse("http://instagram.com/nightowldevelopers");
+                Intent likeIng = new Intent(Intent.ACTION_VIEW, uri);
 
+                likeIng.setPackage("com.instagram.android");
+
+                try {
+                    startActivity(likeIng);
+                    Toast.makeText(MainActivity.this,"Follow the Account \n& Unlock your Achievement",Toast.LENGTH_SHORT).show();
+                   /* Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                            .unlock(getString(R.string.achievement_instagram_achievement));
+                    Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                            .submitScore(getString(R.string.leaderboard_leaderboard), 50000);*/
+                } catch (ActivityNotFoundException e) {
+                    startActivity(new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("http://instagram.com/nightowldevelopers")));
+                    Toast.makeText(MainActivity.this,"Follow the Account \n& Unlock your Achievement",Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+        rating.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
         // Create the client used to sign in.
         mGoogleSignInClient = GoogleSignIn.getClient(this, GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN);
 
@@ -168,7 +205,8 @@ public class MainActivity extends Activity implements
         switch (v.getId()) {
             //case R.id.button_single_player:
             case R.id.button_single_player_2:
-
+                MediaPlayer mPlayer = MediaPlayer.create(MainActivity.this, R.raw.ta_da_sound_click);
+                mPlayer.start();
                 Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                         .unlock(getString(R.string.achievement_level_1));
                 Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
@@ -190,7 +228,7 @@ public class MainActivity extends Activity implements
                 Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                         .submitScore(getString(R.string.leaderboard_leaderboard), 19500);
                 Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                        .unlock(getString(R.string.achievement_level_6));
+                        .unlock(getString(R.string.achievement_max_level));
                 Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                         .submitScore(getString(R.string.leaderboard_leaderboard), 192500);
 
@@ -199,15 +237,14 @@ public class MainActivity extends Activity implements
                 //startGame(false);
                 break;
             case R.id.button_sign_in:
-                // start the sign-in flow
                 Log.d(TAG, "Sign-in button clicked");
                 startSignInIntent();
                 break;
             case R.id.button_sign_out:
-                // user wants to sign out
-                // sign out.
+
                 Log.d(TAG, "Sign-out button clicked");
                 signOut();
+                Toast.makeText(this,"Logout Successfully",Toast.LENGTH_SHORT).show();
                 switchToScreen(R.id.screen_sign_in);
                 break;
             case R.id.button_invite_players:
@@ -216,18 +253,7 @@ public class MainActivity extends Activity implements
             case R.id.button_see_invitations:
                 showAchievements();
                 break;
-          /*  case R.id.button_accept_popup_invitation:
-                // user wants to accept the invitation shown on the invitation popup
-                // (the one we got through the OnInvitationReceivedListener).
-                break;*/
-            //case R.id.button_quick_game:
-            // user wants to play against a random opponent right now
-            //startQuickGame();
-            //break;
-            /*case R.id.button_click_me:
-                // (gameplay) user clicked the "click me" button
-                //scoreOnePoint();
-                break;*/
+
         }
     }
 
