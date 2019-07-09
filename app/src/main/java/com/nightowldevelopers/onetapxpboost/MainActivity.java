@@ -43,7 +43,7 @@ public class MainActivity extends Activity implements
     final static int[] CLICKABLES = {
             R.id.button_accept_popup_invitation, R.id.button_invite_players,
             R.id.button_see_invitations, R.id.button_sign_in,
-            R.id.button_sign_out, R.id.button_click_me, //R.id.button_single_player,
+            R.id.button_sign_out,  //R.id.button_single_player,
             R.id.button_single_player_2
     };
     final static int[] SCREENS = {
@@ -246,10 +246,10 @@ public class MainActivity extends Activity implements
             // user wants to play against a random opponent right now
             //startQuickGame();
             //break;
-            case R.id.button_click_me:
+            /*case R.id.button_click_me:
                 // (gameplay) user clicked the "click me" button
                 //scoreOnePoint();
-                break;
+                break;*/
         }
     }
 
