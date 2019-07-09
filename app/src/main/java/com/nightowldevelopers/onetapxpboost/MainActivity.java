@@ -129,7 +129,18 @@ public class MainActivity extends Activity implements
         rating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(MainActivity.this,"Give 5-star Rating \n& Unlock your Achievement",Toast.LENGTH_SHORT).show();
 
+                final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                      Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                            .unlock(getString(R.string.achievement_rate_on_playstore));
+                    Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                            .submitScore(getString(R.string.leaderboard_leaderboard), 50000);
+                } catch (android.content.ActivityNotFoundException anfe) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                }
             }
         });
         // Create the client used to sign in.
