@@ -49,7 +49,7 @@ public class MainActivity extends Activity implements
            R.id.button_invite_players,
             R.id.button_see_invitations, R.id.button_sign_in,
             R.id.button_sign_out,
-            R.id.button_single_player_2
+            R.id.button_single_player_2,R.id.button_instagram,R.id.rating
     };
     final static int[] SCREENS = {
             R.id.screen_main, R.id.screen_sign_in,
@@ -99,50 +99,7 @@ public class MainActivity extends Activity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button insta = findViewById(R.id.button_instagram);
-        Button rating = findViewById(R.id.rating);
-      //  Button insta = findViewById(R.id.button_instagram);
-        insta.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               // Toast.makeText(MainActivity.this,"Follow the Account \n andUnlocking Achievement",Toast.LENGTH_SHORT).show();
-                Uri uri = Uri.parse("http://instagram.com/nightowldevelopers");
-                Intent likeIng = new Intent(Intent.ACTION_VIEW, uri);
 
-                likeIng.setPackage("com.instagram.android");
-
-                try {
-                    startActivity(likeIng);
-                    Toast.makeText(MainActivity.this,"Follow Us \n& Unlock your Achievement",Toast.LENGTH_SHORT).show();
-               /*     Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                            .unlock(getString(R.string.achievement_instagram_achievement));
-                    Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                            .submitScore(getString(R.string.leaderboard_leaderboard), 50000);*/
-                } catch (ActivityNotFoundException e) {
-                    startActivity(new Intent(Intent.ACTION_VIEW,
-                            Uri.parse("http://instagram.com/nightowldevelopers")));
-                    Toast.makeText(MainActivity.this,"Follow the Account \n& Unlock your Achievement",Toast.LENGTH_SHORT).show();
-
-                }
-            }
-        });
-        rating.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this,"Give 5-star Rating \n& Unlock your Achievement",Toast.LENGTH_SHORT).show();
-
-                final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
-                try {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-               /*       Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                            .unlock(getString(R.string.achievement_rate_on_playstore));
-                    Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                            .submitScore(getString(R.string.leaderboard_leaderboard), 50000);*/
-                } catch (android.content.ActivityNotFoundException anfe) {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-                }
-            }
-        });
         // Create the client used to sign in.
         mGoogleSignInClient = GoogleSignIn.getClient(this, GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN);
 
@@ -264,7 +221,39 @@ public class MainActivity extends Activity implements
             case R.id.button_see_invitations:
                 showAchievements();
                 break;
+            case R.id.button_instagram:
+                Uri uri = Uri.parse("http://instagram.com/nightowldevelopers");
+                Intent likeIng = new Intent(Intent.ACTION_VIEW, uri);
 
+                likeIng.setPackage("com.instagram.android");
+
+                try {
+                    startActivity(likeIng);
+                    Toast.makeText(MainActivity.this,"Follow Us \n& Unlock your Achievement",Toast.LENGTH_SHORT).show();
+                    Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                            .unlock(getString(R.string.achievement_instagram_achievement));
+                    Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                            .submitScore(getString(R.string.leaderboard_leaderboard), 50000);
+                } catch (ActivityNotFoundException e) {
+                    startActivity(new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("http://instagram.com/nightowldevelopers")));
+                    Toast.makeText(MainActivity.this,"Follow the Account \n& Check your Achievements",Toast.LENGTH_SHORT).show();
+
+                }
+                break;
+            case R.id.rating:
+                Toast.makeText(MainActivity.this,"Give 5-star Rating \n& Check your Achievement",Toast.LENGTH_SHORT).show();
+
+                final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                      Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                            .unlock(getString(R.string.achievement_rate_on_playstore));
+//                    Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+//                            .submitScore(getString(R.string.leaderboard_leaderboard), 50000);
+                } catch (android.content.ActivityNotFoundException anfe) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                }
         }
     }
 
