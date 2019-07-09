@@ -190,6 +190,7 @@ public class MainActivity extends Activity implements
         switch (v.getId()) {
             //case R.id.button_single_player:
             case R.id.button_single_player_2:
+
                 Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                         .unlock(getString(R.string.achievement_level_1));
                 Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))

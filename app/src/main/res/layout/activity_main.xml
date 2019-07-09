@@ -64,7 +64,9 @@
         <Button
             android:id="@+id/button_single_player_2"
             style="@style/MainScreenButton"
-            android:text="@string/single_player" />
+            android:background="@drawable/do_not_touch"
+            android:layout_width="160dp"
+            android:layout_height="160dp"/>
 
         <TextView
             style="@style/MainScreenButtonBlurb"
