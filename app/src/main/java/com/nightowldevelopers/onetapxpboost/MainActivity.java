@@ -114,10 +114,10 @@ public class MainActivity extends Activity implements
                 try {
                     startActivity(likeIng);
                     Toast.makeText(MainActivity.this,"Follow the Account \n& Unlock your Achievement",Toast.LENGTH_SHORT).show();
-                    Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+               /*     Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                             .unlock(getString(R.string.achievement_instagram_achievement));
                     Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                            .submitScore(getString(R.string.leaderboard_leaderboard), 50000);
+                            .submitScore(getString(R.string.leaderboard_leaderboard), 50000);*/
                 } catch (ActivityNotFoundException e) {
                     startActivity(new Intent(Intent.ACTION_VIEW,
                             Uri.parse("http://instagram.com/nightowldevelopers")));
@@ -134,10 +134,10 @@ public class MainActivity extends Activity implements
                 final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
                 try {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-                      Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+               /*       Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                             .unlock(getString(R.string.achievement_rate_on_playstore));
                     Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                            .submitScore(getString(R.string.leaderboard_leaderboard), 50000);
+                            .submitScore(getString(R.string.leaderboard_leaderboard), 50000);*/
                 } catch (android.content.ActivityNotFoundException anfe) {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
                 }
