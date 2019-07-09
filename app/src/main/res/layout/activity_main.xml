@@ -10,7 +10,8 @@
 
         <TextView style="@style/GameTitle" />
 
-        <TextView style="@style/GameBlurb" />
+        <TextView style="@style/GameBlurb"
+            android:layout_gravity="center"/>
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/button_sign_in"
