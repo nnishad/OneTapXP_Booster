@@ -8,6 +8,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -445,6 +446,9 @@ public class MainActivity extends Activity implements
             mSignedInAccount = googleSignInAccount;
             mAchievementsClient = Games.getAchievementsClient(this, googleSignInAccount);
             GamesClient gamesClient = Games.getGamesClient(MainActivity.this, googleSignInAccount);
+            gamesClient = Games.getGamesClient(this, GoogleSignIn.getLastSignedInAccount(this));
+            gamesClient.setViewForPopups(findViewById(android.R.id.content));
+            gamesClient.setGravityForPopups(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
             mLeaderboardsClient = Games.getLeaderboardsClient(this, googleSignInAccount);
 
             // update the clients
