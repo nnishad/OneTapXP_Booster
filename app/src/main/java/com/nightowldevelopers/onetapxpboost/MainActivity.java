@@ -3,6 +3,7 @@ package com.nightowldevelopers.onetapxpboost;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -12,6 +13,8 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -138,6 +141,9 @@ public class MainActivity extends Activity implements
      */
     public void startSignInIntent() {
         startActivityForResult(mGoogleSignInClient.getSignInIntent(), RC_SIGN_IN);
+
+
+
     }
 
 
@@ -171,9 +177,15 @@ public class MainActivity extends Activity implements
 
     @Override
     public void onClick(View v) {
+        Button buttnanim;
         switch (v.getId()) {
             //case R.id.button_single_player:
             case R.id.button_single_player_2:
+                Animation animation;
+                animation = AnimationUtils.loadAnimation(getApplicationContext(),
+                        R.anim.fade_in);
+                buttnanim= findViewById(R.id.button_single_player_2);
+                buttnanim.startAnimation(animation);
                 MediaPlayer mPlayer = MediaPlayer.create(MainActivity.this, R.raw.ta_da_sound_click);
                 mPlayer.start();
                 Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
@@ -530,5 +542,18 @@ public class MainActivity extends Activity implements
                         startActivityForResult(intent, RC_ACHIEVEMENT_UI);
                     }
                 });
+    }
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Really Exit?")
+                .setMessage("Are you sure you want to exit?")
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        MainActivity.super.onBackPressed();
+                    }
+                }).create().show();
     }
 }
