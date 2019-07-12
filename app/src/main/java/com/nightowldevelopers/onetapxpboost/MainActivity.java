@@ -13,6 +13,8 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -175,9 +177,15 @@ public class MainActivity extends Activity implements
 
     @Override
     public void onClick(View v) {
+        Button buttnanim;
         switch (v.getId()) {
             //case R.id.button_single_player:
             case R.id.button_single_player_2:
+                Animation animation;
+                animation = AnimationUtils.loadAnimation(getApplicationContext(),
+                        R.anim.fade_in);
+                buttnanim= findViewById(R.id.button_single_player_2);
+                buttnanim.startAnimation(animation);
                 MediaPlayer mPlayer = MediaPlayer.create(MainActivity.this, R.raw.ta_da_sound_click);
                 mPlayer.start();
                 Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
