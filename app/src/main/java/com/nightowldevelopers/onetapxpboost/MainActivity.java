@@ -17,6 +17,8 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -50,6 +52,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
+
+import static android.widget.Toast.*;
 
 public class MainActivity extends Activity implements
         View.OnClickListener, RewardedVideoAdListener {
@@ -239,7 +243,7 @@ public class MainActivity extends Activity implements
 
                 Log.d(TAG, "Sign-out button clicked");
                 signOut();
-                Toast.makeText(this,"Logout Successfully",Toast.LENGTH_SHORT).show();
+                makeText(this,"Logout Successfully", LENGTH_SHORT).show();
                 switchToScreen(R.id.screen_sign_in);
                 break;
             case R.id.button_invite_players:
@@ -256,7 +260,7 @@ public class MainActivity extends Activity implements
 
                 try {
                     startActivity(likeIng);
-                    Toast.makeText(MainActivity.this,"Follow Us \n& Unlock your Achievement",Toast.LENGTH_SHORT).show();
+                    makeText(MainActivity.this,"Follow Us \n& Unlock your Achievement", LENGTH_SHORT).show();
                     Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                             .unlock(getString(R.string.achievement_instagram_achievement));
                     Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
@@ -264,12 +268,12 @@ public class MainActivity extends Activity implements
                 } catch (ActivityNotFoundException e) {
                     startActivity(new Intent(Intent.ACTION_VIEW,
                             Uri.parse("http://instagram.com/nightowldevelopers")));
-                    Toast.makeText(MainActivity.this,"Follow the Account \n& Check your Achievements",Toast.LENGTH_SHORT).show();
+                    makeText(MainActivity.this,"Follow the Account \n& Check your Achievements", LENGTH_SHORT).show();
 
                 }
                 break;
             case R.id.rating:
-                Toast.makeText(MainActivity.this,"Give 5-star Rating \n& Check your Achievement",Toast.LENGTH_SHORT).show();
+                makeText(MainActivity.this,"Give 5-star Rating \n& Check your Achievement", LENGTH_SHORT).show();
 
                 final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
                 try {
@@ -550,6 +554,7 @@ public class MainActivity extends Activity implements
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface arg0, int arg1) {
+
                         MainActivity.super.onBackPressed();
                     }
                 }).create().show();
@@ -563,24 +568,33 @@ public class MainActivity extends Activity implements
                 .unlock(getString(R.string.achievement_level_2));
         Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .submitScore(getString(R.string.leaderboard_leaderboard), 19500);
-        Toast.makeText(this, "Level 2 Unlocked", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Level 2 Unlocked", LENGTH_SHORT).show();
         Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .unlock(getString(R.string.achievement_level_3));
         Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .submitScore(getString(R.string.leaderboard_leaderboard), 19500);
-        Toast.makeText(this, "Level 3 Unlocked", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Level 3 Unlocked", LENGTH_SHORT).show();
         Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .unlock(getString(R.string.achievement_level_4));
         Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .submitScore(getString(R.string.leaderboard_leaderboard), 19500);
-        Toast.makeText(this, "Level 4 Unlocked", Toast.LENGTH_SHORT).show();
-
+        Toast.makeText(this, "Level 4 Unlocked", LENGTH_SHORT).show();
+        Toast.makeText(this, "Congratulation you won 60k Points", LENGTH_SHORT).show();
+        Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .unlock(getString(R.string.achievement_level_5));
+        Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .submitScore(getString(R.string.leaderboard_leaderboard), 19500);
+        Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .unlock(getString(R.string.achievement_max_level));
+        Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .submitScore(getString(R.string.leaderboard_leaderboard), 192500);
+        makeText(this, "Congratulation you won 70k Points", LENGTH_SHORT).show();
     }
 
     @Override
     public void onRewardedVideoAdLeftApplication() {
-        Toast.makeText(this, "onRewardedVideoAdLeftApplication",
-                Toast.LENGTH_SHORT).show();
+        makeText(this, "Watch Complete Video to Boost More Xp",
+                LENGTH_SHORT).show();
     }
 
     @Override
@@ -591,7 +605,8 @@ public class MainActivity extends Activity implements
 
     @Override
     public void onRewardedVideoAdFailedToLoad(int errorCode) {
-        Toast.makeText(this, "Video Failed To Load", Toast.LENGTH_SHORT).show();
+      //  makeText(this, "Video Failed To Load", LENGTH_SHORT).show();
+        onRewardedVideoAdLoaded();
     }
 
     @Override
@@ -607,19 +622,12 @@ public class MainActivity extends Activity implements
 
     @Override
     public void onRewardedVideoStarted() {
-        Toast.makeText(this, "Relax, Watch the Video and Earn Achievements", Toast.LENGTH_LONG).show();
+        makeText(this, "Relax, & Sit Back!!\nWatch complete video and Unlock Achievements", LENGTH_LONG).show();
     }
 
     @Override
     public void onRewardedVideoCompleted() {
-        Toast.makeText(this, "Congratulation you won 80k Points", Toast.LENGTH_SHORT).show();
-        Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                .unlock(getString(R.string.achievement_level_5));
-        Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                .submitScore(getString(R.string.leaderboard_leaderboard), 19500);
-        Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                .unlock(getString(R.string.achievement_max_level));
-        Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                .submitScore(getString(R.string.leaderboard_leaderboard), 192500);
+
+
     }
 }
