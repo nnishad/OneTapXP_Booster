@@ -50,16 +50,17 @@
         <Button
             android:id="@+id/button_single_player_2"
             style="@style/MainScreenButton"
-            android:layout_width="216dp"
-            android:layout_height="219dp"
-            android:layout_marginTop="232dp"
+            android:layout_width="248dp"
+            android:layout_height="264dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="84dp"
             android:background="@drawable/do_not_touch"
             app:layout_constraintBottom_toTopOf="@+id/frameLayout2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.414"
+            app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="1.0" />
 
         <TextView
             android:id="@+id/textView2"
@@ -96,11 +97,11 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="136dp"
             android:layout_marginRight="136dp"
-            android:text="@string/see_invitations_explanation"
+            android:text="@string/invite_players_explanation"
             android:textColor="#060707"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.066"
+            app:layout_constraintHorizontal_bias="0.246"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_invite_players"
             app:layout_constraintVertical_bias="0.0" />
@@ -111,11 +112,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/invite_players_explanation"
+            android:text="@string/see_invitations_explanation"
             android:textColor="#060707"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.909"
+            app:layout_constraintHorizontal_bias="0.944"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_see_invitations"
             app:layout_constraintVertical_bias="0.014" />
@@ -254,8 +255,7 @@
             ads:layout_constraintEnd_toEndOf="parent"
             ads:layout_constraintHorizontal_bias="0.5"
             ads:layout_constraintStart_toStartOf="parent"
-            ads:layout_constraintTop_toBottomOf="@+id/textView2"
-            tools:ignore="MissingConstraints"></com.google.android.gms.ads.AdView>
+            ads:layout_constraintTop_toBottomOf="@+id/textView2" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
