@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -114,7 +115,9 @@ public class MainActivity extends Activity implements
         MobileAds.initialize(this,getString(R.string.admob_app_id));
         mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
         mRewardedVideoAd.setRewardedVideoAdListener(this);
+
         loadRewardedVideoAd();
+
         /** Rewarded Video Ends*/
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -206,30 +209,23 @@ public class MainActivity extends Activity implements
                 buttnanim.startAnimation(animation);
                 MediaPlayer mPlayer = MediaPlayer.create(MainActivity.this, R.raw.ta_da_sound_click);
                 mPlayer.start();
+
                 Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                         .unlock(getString(R.string.achievement_level_1));
                 Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                         .submitScore(getString(R.string.leaderboard_leaderboard), 2500);
-                Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                        .unlock(getString(R.string.achievement_level_2));
-                Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                        .submitScore(getString(R.string.leaderboard_leaderboard), 19500);
-                Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                        .unlock(getString(R.string.achievement_level_3));
-                Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                        .submitScore(getString(R.string.leaderboard_leaderboard), 19500);
-                Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                        .unlock(getString(R.string.achievement_level_4));
-                Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                        .submitScore(getString(R.string.leaderboard_leaderboard), 19500);
-                Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                        .unlock(getString(R.string.achievement_level_5));
-                Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                        .submitScore(getString(R.string.leaderboard_leaderboard), 19500);
-                Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                        .unlock(getString(R.string.achievement_max_level));
-                Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                        .submitScore(getString(R.string.leaderboard_leaderboard), 192500);
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Do something after 5s = 5000ms
+                        if (mRewardedVideoAd.isLoaded()) {
+                            mRewardedVideoAd.show();
+                        }
+                    }
+                }, 5000);
+
+
 
                 // play a single-player game
                 //resetGameVars();
@@ -564,6 +560,19 @@ public class MainActivity extends Activity implements
         Toast.makeText(this, "onRewarded! currency: " + reward.getType() + "  amount: " +
                 reward.getAmount(), Toast.LENGTH_SHORT).show();
         // Reward the user.
+        Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .unlock(getString(R.string.achievement_level_2));
+        Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .submitScore(getString(R.string.leaderboard_leaderboard), 19500);
+        Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .unlock(getString(R.string.achievement_level_3));
+        Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .submitScore(getString(R.string.leaderboard_leaderboard), 19500);
+        Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .unlock(getString(R.string.achievement_level_4));
+        Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .submitScore(getString(R.string.leaderboard_leaderboard), 19500);
+
     }
 
     @Override
@@ -580,26 +589,35 @@ public class MainActivity extends Activity implements
 
     @Override
     public void onRewardedVideoAdFailedToLoad(int errorCode) {
-        Toast.makeText(this, "onRewardedVideoAdFailedToLoad", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Video Failed To Load", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onRewardedVideoAdLoaded() {
-        Toast.makeText(this, "onRewardedVideoAdLoaded", Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(this, "onRewardedVideo AdLoaded", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
     public void onRewardedVideoAdOpened() {
-        Toast.makeText(this, "onRewardedVideoAdOpened", Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(this, "onRewardedVideo AdOpened", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onRewardedVideoStarted() {
-        Toast.makeText(this, "onRewardedVideoStarted", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Relax, Watch the Video and Earn Achievements", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onRewardedVideoCompleted() {
-        Toast.makeText(this, "onRewardedVideoCompleted", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Congratulation you won 80k Points", Toast.LENGTH_SHORT).show();
+        Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .unlock(getString(R.string.achievement_level_5));
+        Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .submitScore(getString(R.string.leaderboard_leaderboard), 19500);
+        Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .unlock(getString(R.string.achievement_max_level));
+        Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .submitScore(getString(R.string.leaderboard_leaderboard), 192500);
     }
 }
