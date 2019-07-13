@@ -137,9 +137,9 @@
 
         <FrameLayout
             android:id="@+id/frameLayout2"
-            android:layout_width="404dp"
+            android:layout_width="match_parent"
             android:layout_height="193dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.428"
@@ -150,10 +150,10 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
                 android:layout_height="186dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/textView"
                 app:layout_constraintVertical_bias="0.0">
@@ -165,15 +165,17 @@
                     android:layout_height="38dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
                     android:background="@drawable/roundedredbutton"
                     android:text="Signout"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.387"
+                    app:layout_constraintHorizontal_bias="0.462"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/screen_main" />
+                    app:layout_constraintTop_toTopOf="@+id/developershare"
+                    app:layout_constraintVertical_bias="1.0" />
 
                 <Button
 
@@ -191,10 +193,10 @@
                     android:background="@drawable/xp2"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.399"
+                    app:layout_constraintHorizontal_bias="0.454"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.096" />
+                    app:layout_constraintVertical_bias="0.105" />
 
                 <Button
                     android:id="@+id/rating"
@@ -216,17 +218,16 @@
                     style="@style/MainScreenButton"
                     android:layout_width="88dp"
                     android:layout_height="88dp"
-
-                    android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginLeft="18dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginRight="0dp"
                     android:layout_marginBottom="8dp"
                     android:background="@drawable/instagram_new"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.808"
+                    app:layout_constraintHorizontal_bias="0.916"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.097" />
@@ -235,8 +236,8 @@
                     android:id="@+id/textView5"
                     android:layout_width="202dp"
                     android:layout_height="48dp"
-                    android:layout_marginStart="208dp"
-                    android:layout_marginLeft="208dp"
+                    android:layout_marginStart="216dp"
+                    android:layout_marginLeft="216dp"
                     android:layout_marginBottom="8dp"
                     android:text="       Follow on Instagram\n&amp; Unlock the achievement"
                     app:layout_constraintBottom_toBottomOf="parent"
