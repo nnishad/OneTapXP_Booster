@@ -17,8 +17,6 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -53,7 +51,9 @@ import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 
-import static android.widget.Toast.*;
+import static android.widget.Toast.LENGTH_LONG;
+import static android.widget.Toast.LENGTH_SHORT;
+import static android.widget.Toast.makeText;
 
 public class MainActivity extends Activity implements
         View.OnClickListener, RewardedVideoAdListener {
@@ -140,7 +140,7 @@ public class MainActivity extends Activity implements
     }
 
     private void loadRewardedVideoAd() {
-        mRewardedVideoAd.loadAd(getString(R.string.ad_unit_id), new AdRequest.Builder().build());
+        mRewardedVideoAd.loadAd(getString(R.string.vdo_ad_unit_id), new AdRequest.Builder().build());
     }
 
     @Override

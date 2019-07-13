@@ -33,5 +33,6 @@
     <string name='match_error_locally_modified'>This match has locally-modified data.  This operation cannot be performed until the match is sent to the server.</string>
 
     <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
-    <string name="ad_unit_id">ca-app-pub-3940256099942544/5224354917</string>
+    <string name="ad_unit_id">ca-app-pub-9659269658536774/6742499649</string>
+    <string name="vdo_ad_unit_id">ca-app-pub-9659269658536774/4844068386</string>
 </resources>
