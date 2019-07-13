@@ -65,7 +65,7 @@ public class MainActivity extends Activity implements
            R.id.button_invite_players,
             R.id.button_see_invitations, R.id.button_sign_in,
             R.id.button_sign_out,
-            R.id.button_single_player_2,R.id.button_instagram,R.id.rating
+            R.id.button_single_player_2,R.id.button_instagram,R.id.rating,R.id.developershare
     };
     final static int[] SCREENS = {
             R.id.screen_main, R.id.screen_sign_in,
@@ -134,7 +134,7 @@ public class MainActivity extends Activity implements
         for (int id : CLICKABLES) {
             findViewById(id).setOnClickListener(this);
         }
-
+        startSignInIntent();
         switchToMainScreen();
         checkPlaceholderIds();
     }
@@ -147,6 +147,7 @@ public class MainActivity extends Activity implements
     public void onResume() {
         mRewardedVideoAd.resume(this);
         super.onResume();
+        signInSilently();
     }
 
     @Override
@@ -271,6 +272,18 @@ public class MainActivity extends Activity implements
                     makeText(MainActivity.this,"Follow the Account \n& Check your Achievements", LENGTH_SHORT).show();
 
                 }
+                break;
+            case R.id.developershare:
+                final String developerurl = "4619988116632070762"; // getPackageName() from Context or Activity object
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://dev?id=" + developerurl)));
+                } catch (android.content.ActivityNotFoundException anfe) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/dev?id=" + developerurl)));
+                }
+                Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                        .unlock(getString(R.string.achievement_more_xp));
+                Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                        .submitScore(getString(R.string.leaderboard_leaderboard), 50000);
                 break;
             case R.id.rating:
                 makeText(MainActivity.this,"Give 5-star Rating \n& Check your Achievement", LENGTH_SHORT).show();
@@ -581,11 +594,11 @@ public class MainActivity extends Activity implements
         Toast.makeText(this, "Level 4 Unlocked", LENGTH_SHORT).show();
         Toast.makeText(this, "Congratulation you won 60k Points", LENGTH_SHORT).show();
         Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                .unlock(getString(R.string.achievement_level_5));
+                .unlock(getString(R.string.achievement_level_5__rate_app_and_win_additional_xp));
         Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .submitScore(getString(R.string.leaderboard_leaderboard), 19500);
         Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                .unlock(getString(R.string.achievement_max_level));
+                .unlock(getString(R.string.achievement_level_6__follow_us_on_instagram_and_unlock_level_7));
         Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .submitScore(getString(R.string.leaderboard_leaderboard), 192500);
         makeText(this, "Congratulation you won 70k Points", LENGTH_SHORT).show();
@@ -622,7 +635,7 @@ public class MainActivity extends Activity implements
 
     @Override
     public void onRewardedVideoStarted() {
-        makeText(this, "Relax, & Sit Back!!\nWatch complete video and Unlock Achievements", LENGTH_LONG).show();
+        makeText(this, "Relax,& Sit Back!! Watch complete Video and Unlock Achievements", LENGTH_LONG).show();
     }
 
     @Override

@@ -139,9 +139,12 @@
             android:id="@+id/frameLayout2"
             android:layout_width="404dp"
             android:layout_height="193dp"
+            android:layout_marginBottom="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="0dp">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.428"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints">
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -158,23 +161,40 @@
 
                 <Button
                     android:id="@+id/button_sign_out"
-                    style="@style/SignOutButton"
-                    android:layout_width="90dp"
-                    android:layout_height="87dp"
+                    android:layout_width="102dp"
+                    android:layout_height="38dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@drawable/roundedredbutton"
+                    android:text="Signout"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.387"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/screen_main" />
 
+                <Button
+
+                    android:id="@+id/developershare"
+                    style="@style/SignOutButton"
+                    android:layout_width="97dp"
+
+                    android:layout_height="94dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginBottom="8dp"
-                    android:background="@drawable/logout"
+                    android:background="@drawable/xp2"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.389"
+                    app:layout_constraintHorizontal_bias="0.399"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.108" />
+                    app:layout_constraintVertical_bias="0.096" />
 
                 <Button
                     android:id="@+id/rating"
