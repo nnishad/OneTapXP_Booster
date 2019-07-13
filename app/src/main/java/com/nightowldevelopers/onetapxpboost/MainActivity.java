@@ -22,6 +22,10 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.reward.RewardItem;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -47,9 +51,9 @@ import com.google.android.gms.tasks.Task;
 import java.util.ArrayList;
 
 public class MainActivity extends Activity implements
-        View.OnClickListener {
+        View.OnClickListener, RewardedVideoAdListener {
     private AdView mAdView;
-
+    private RewardedVideoAd mRewardedVideoAd;
     protected static final int RC_LEADERBOARD_UI = 9004;
     final static String TAG = "OneTapXPBoost";
     final static int[] CLICKABLES = {
@@ -106,6 +110,12 @@ public class MainActivity extends Activity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        /** Rewqrded Video*/
+        MobileAds.initialize(this,getString(R.string.admob_app_id));
+        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
+        mRewardedVideoAd.setRewardedVideoAdListener(this);
+        loadRewardedVideoAd();
+        /** Rewarded Video Ends*/
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
@@ -122,25 +132,27 @@ public class MainActivity extends Activity implements
         checkPlaceholderIds();
     }
 
+    private void loadRewardedVideoAd() {
+        mRewardedVideoAd.loadAd(getString(R.string.ad_unit_id), new AdRequest.Builder().build());
+    }
+
     @Override
-    protected void onResume() {
+    public void onResume() {
+        mRewardedVideoAd.resume(this);
         super.onResume();
-        Log.d(TAG, "onResume()");
-
-        // Since the state of the signed in user can change when the activity is not active
-        // it is recommended to try and sign in silently from when the app resumes.
-        signInSilently();
     }
-
-
 
     @Override
-    protected void onPause() {
+    public void onPause() {
+        mRewardedVideoAd.pause(this);
         super.onPause();
-
-        // unregister our listeners.  They will be re-registered via onResume->signInSilently->onConnected.
     }
 
+    @Override
+    public void onDestroy() {
+        mRewardedVideoAd.destroy(this);
+        super.onDestroy();
+    }
     /**
      * Start a sign in activity.  To properly handle the result, call tryHandleSignInResult from
      * your Activity's onActivityResult function
@@ -334,33 +346,13 @@ public class MainActivity extends Activity implements
     }
 
 
-    // Show error message about game being cancelled and return to main screen.
 
-
-
-
-
-
-    /*
-     * GAME LOGIC SECTION. Methods that implement the game's rules.
-     */
-
-    // Handle back key to make sure we cleanly leave a game if we are in the middle of one
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent e) {
-       /* if (keyCode == KeyEvent.KEYCODE_BACK && mCurScreen == R.id.screen_game) {
-            return true;
-        }*/
+
         return super.onKeyDown(keyCode, e);
     }
 
-    /**
-     * Since a lot of the operations use tasks, we can use a common handler for whenever one fails.
-     *
-     * @param exception The exception to evaluate.  Will try to display a more descriptive reason for the exception.
-     * @param details   Will display alongside the exception if you wish to provide more details for why the exception
-     *                  happened
-     */
     private void handleException(Exception exception, String details) {
         int status = 0;
 
@@ -390,6 +382,9 @@ public class MainActivity extends Activity implements
                 break;
             case GamesClientStatusCodes.MATCH_ERROR_LOCALLY_MODIFIED:
                 errorString = getString(R.string.match_error_locally_modified);
+                break;
+            case GamesClientStatusCodes.ERROR:
+                errorString = "Please Retry Login";
                 break;
             default:
                 errorString = getString(R.string.unexpected_status, GamesClientStatusCodes.getStatusCodeString(status));
@@ -491,6 +486,7 @@ public class MainActivity extends Activity implements
 
     }
 
+
     void switchToScreen(int screenId) {
         // make the requested screen visible; hide all others.
         for (int id : SCREENS) {
@@ -561,5 +557,49 @@ public class MainActivity extends Activity implements
                         MainActivity.super.onBackPressed();
                     }
                 }).create().show();
+    }
+
+    @Override
+    public void onRewarded(RewardItem reward) {
+        Toast.makeText(this, "onRewarded! currency: " + reward.getType() + "  amount: " +
+                reward.getAmount(), Toast.LENGTH_SHORT).show();
+        // Reward the user.
+    }
+
+    @Override
+    public void onRewardedVideoAdLeftApplication() {
+        Toast.makeText(this, "onRewardedVideoAdLeftApplication",
+                Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRewardedVideoAdClosed() {
+        // Load the next rewarded video ad.
+        loadRewardedVideoAd();
+    }
+
+    @Override
+    public void onRewardedVideoAdFailedToLoad(int errorCode) {
+        Toast.makeText(this, "onRewardedVideoAdFailedToLoad", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRewardedVideoAdLoaded() {
+        Toast.makeText(this, "onRewardedVideoAdLoaded", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRewardedVideoAdOpened() {
+        Toast.makeText(this, "onRewardedVideoAdOpened", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRewardedVideoStarted() {
+        Toast.makeText(this, "onRewardedVideoStarted", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRewardedVideoCompleted() {
+        Toast.makeText(this, "onRewardedVideoCompleted", Toast.LENGTH_SHORT).show();
     }
 }
