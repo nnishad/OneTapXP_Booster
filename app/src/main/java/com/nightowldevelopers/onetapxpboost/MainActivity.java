@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -16,12 +17,18 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.reward.RewardItem;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -46,17 +53,19 @@ import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 
-public class MainActivity extends Activity implements
-        View.OnClickListener {
-    private AdView mAdView;
+import static android.widget.Toast.*;
 
+public class MainActivity extends Activity implements
+        View.OnClickListener, RewardedVideoAdListener {
+    private AdView mAdView;
+    private RewardedVideoAd mRewardedVideoAd;
     protected static final int RC_LEADERBOARD_UI = 9004;
     final static String TAG = "OneTapXPBoost";
     final static int[] CLICKABLES = {
            R.id.button_invite_players,
             R.id.button_see_invitations, R.id.button_sign_in,
             R.id.button_sign_out,
-            R.id.button_single_player_2,R.id.button_instagram,R.id.rating
+            R.id.button_single_player_2,R.id.button_instagram,R.id.rating,R.id.developershare
     };
     final static int[] SCREENS = {
             R.id.screen_main, R.id.screen_sign_in,
@@ -106,6 +115,14 @@ public class MainActivity extends Activity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        /** Rewqrded Video*/
+        MobileAds.initialize(this,getString(R.string.admob_app_id));
+        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
+        mRewardedVideoAd.setRewardedVideoAdListener(this);
+
+        loadRewardedVideoAd();
+
+        /** Rewarded Video Ends*/
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
@@ -117,30 +134,33 @@ public class MainActivity extends Activity implements
         for (int id : CLICKABLES) {
             findViewById(id).setOnClickListener(this);
         }
-
+        startSignInIntent();
         switchToMainScreen();
         checkPlaceholderIds();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(TAG, "onResume()");
+    private void loadRewardedVideoAd() {
+        mRewardedVideoAd.loadAd(getString(R.string.ad_unit_id), new AdRequest.Builder().build());
+    }
 
-        // Since the state of the signed in user can change when the activity is not active
-        // it is recommended to try and sign in silently from when the app resumes.
+    @Override
+    public void onResume() {
+        mRewardedVideoAd.resume(this);
+        super.onResume();
         signInSilently();
     }
 
-
-
     @Override
-    protected void onPause() {
+    public void onPause() {
+        mRewardedVideoAd.pause(this);
         super.onPause();
-
-        // unregister our listeners.  They will be re-registered via onResume->signInSilently->onConnected.
     }
 
+    @Override
+    public void onDestroy() {
+        mRewardedVideoAd.destroy(this);
+        super.onDestroy();
+    }
     /**
      * Start a sign in activity.  To properly handle the result, call tryHandleSignInResult from
      * your Activity's onActivityResult function
@@ -194,30 +214,23 @@ public class MainActivity extends Activity implements
                 buttnanim.startAnimation(animation);
                 MediaPlayer mPlayer = MediaPlayer.create(MainActivity.this, R.raw.ta_da_sound_click);
                 mPlayer.start();
+
                 Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                         .unlock(getString(R.string.achievement_level_1));
                 Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                         .submitScore(getString(R.string.leaderboard_leaderboard), 2500);
-                Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                        .unlock(getString(R.string.achievement_level_2));
-                Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                        .submitScore(getString(R.string.leaderboard_leaderboard), 19500);
-                Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                        .unlock(getString(R.string.achievement_level_3));
-                Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                        .submitScore(getString(R.string.leaderboard_leaderboard), 19500);
-                Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                        .unlock(getString(R.string.achievement_level_4));
-                Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                        .submitScore(getString(R.string.leaderboard_leaderboard), 19500);
-                Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                        .unlock(getString(R.string.achievement_level_5));
-                Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                        .submitScore(getString(R.string.leaderboard_leaderboard), 19500);
-                Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                        .unlock(getString(R.string.achievement_max_level));
-                Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                        .submitScore(getString(R.string.leaderboard_leaderboard), 192500);
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Do something after 5s = 5000ms
+                        if (mRewardedVideoAd.isLoaded()) {
+                            mRewardedVideoAd.show();
+                        }
+                    }
+                }, 5000);
+
+
 
                 // play a single-player game
                 //resetGameVars();
@@ -231,7 +244,7 @@ public class MainActivity extends Activity implements
 
                 Log.d(TAG, "Sign-out button clicked");
                 signOut();
-                Toast.makeText(this,"Logout Successfully",Toast.LENGTH_SHORT).show();
+                makeText(this,"Logout Successfully", LENGTH_SHORT).show();
                 switchToScreen(R.id.screen_sign_in);
                 break;
             case R.id.button_invite_players:
@@ -248,7 +261,7 @@ public class MainActivity extends Activity implements
 
                 try {
                     startActivity(likeIng);
-                    Toast.makeText(MainActivity.this,"Follow Us \n& Unlock your Achievement",Toast.LENGTH_SHORT).show();
+                    makeText(MainActivity.this,"Follow Us \n& Unlock your Achievement", LENGTH_SHORT).show();
                     Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                             .unlock(getString(R.string.achievement_instagram_achievement));
                     Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
@@ -256,12 +269,24 @@ public class MainActivity extends Activity implements
                 } catch (ActivityNotFoundException e) {
                     startActivity(new Intent(Intent.ACTION_VIEW,
                             Uri.parse("http://instagram.com/nightowldevelopers")));
-                    Toast.makeText(MainActivity.this,"Follow the Account \n& Check your Achievements",Toast.LENGTH_SHORT).show();
+                    makeText(MainActivity.this,"Follow the Account \n& Check your Achievements", LENGTH_SHORT).show();
 
                 }
                 break;
+            case R.id.developershare:
+                final String developerurl = "4619988116632070762"; // getPackageName() from Context or Activity object
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://dev?id=" + developerurl)));
+                } catch (android.content.ActivityNotFoundException anfe) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/dev?id=" + developerurl)));
+                }
+                Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                        .unlock(getString(R.string.achievement_more_xp));
+                Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                        .submitScore(getString(R.string.leaderboard_leaderboard), 50000);
+                break;
             case R.id.rating:
-                Toast.makeText(MainActivity.this,"Give 5-star Rating \n& Check your Achievement",Toast.LENGTH_SHORT).show();
+                makeText(MainActivity.this,"Give 5-star Rating \n& Check your Achievement", LENGTH_SHORT).show();
 
                 final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
                 try {
@@ -334,33 +359,13 @@ public class MainActivity extends Activity implements
     }
 
 
-    // Show error message about game being cancelled and return to main screen.
 
-
-
-
-
-
-    /*
-     * GAME LOGIC SECTION. Methods that implement the game's rules.
-     */
-
-    // Handle back key to make sure we cleanly leave a game if we are in the middle of one
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent e) {
-       /* if (keyCode == KeyEvent.KEYCODE_BACK && mCurScreen == R.id.screen_game) {
-            return true;
-        }*/
+
         return super.onKeyDown(keyCode, e);
     }
 
-    /**
-     * Since a lot of the operations use tasks, we can use a common handler for whenever one fails.
-     *
-     * @param exception The exception to evaluate.  Will try to display a more descriptive reason for the exception.
-     * @param details   Will display alongside the exception if you wish to provide more details for why the exception
-     *                  happened
-     */
     private void handleException(Exception exception, String details) {
         int status = 0;
 
@@ -390,6 +395,9 @@ public class MainActivity extends Activity implements
                 break;
             case GamesClientStatusCodes.MATCH_ERROR_LOCALLY_MODIFIED:
                 errorString = getString(R.string.match_error_locally_modified);
+                break;
+            case GamesClientStatusCodes.ERROR:
+                errorString = "Please Retry Login";
                 break;
             default:
                 errorString = getString(R.string.unexpected_status, GamesClientStatusCodes.getStatusCodeString(status));
@@ -491,6 +499,7 @@ public class MainActivity extends Activity implements
 
     }
 
+
     void switchToScreen(int screenId) {
         // make the requested screen visible; hide all others.
         for (int id : SCREENS) {
@@ -558,8 +567,80 @@ public class MainActivity extends Activity implements
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface arg0, int arg1) {
+
                         MainActivity.super.onBackPressed();
                     }
                 }).create().show();
+    }
+
+    @Override
+    public void onRewarded(RewardItem reward) {
+
+        // Reward the user.
+        Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .unlock(getString(R.string.achievement_level_2));
+        Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .submitScore(getString(R.string.leaderboard_leaderboard), 19500);
+        Toast.makeText(this, "Level 2 Unlocked", LENGTH_SHORT).show();
+        Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .unlock(getString(R.string.achievement_level_3));
+        Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .submitScore(getString(R.string.leaderboard_leaderboard), 19500);
+        Toast.makeText(this, "Level 3 Unlocked", LENGTH_SHORT).show();
+        Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .unlock(getString(R.string.achievement_level_4));
+        Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .submitScore(getString(R.string.leaderboard_leaderboard), 19500);
+        Toast.makeText(this, "Level 4 Unlocked", LENGTH_SHORT).show();
+        Toast.makeText(this, "Congratulation you won 60k Points", LENGTH_SHORT).show();
+        Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .unlock(getString(R.string.achievement_level_5__rate_app_and_win_additional_xp));
+        Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .submitScore(getString(R.string.leaderboard_leaderboard), 19500);
+        Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .unlock(getString(R.string.achievement_level_6__follow_us_on_instagram_and_unlock_level_7));
+        Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .submitScore(getString(R.string.leaderboard_leaderboard), 192500);
+        makeText(this, "Congratulation you won 70k Points", LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRewardedVideoAdLeftApplication() {
+        makeText(this, "Watch Complete Video to Boost More Xp",
+                LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRewardedVideoAdClosed() {
+        // Load the next rewarded video ad.
+        loadRewardedVideoAd();
+    }
+
+    @Override
+    public void onRewardedVideoAdFailedToLoad(int errorCode) {
+      //  makeText(this, "Video Failed To Load", LENGTH_SHORT).show();
+        onRewardedVideoAdLoaded();
+    }
+
+    @Override
+    public void onRewardedVideoAdLoaded() {
+      //  Toast.makeText(this, "onRewardedVideo AdLoaded", Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onRewardedVideoAdOpened() {
+      //  Toast.makeText(this, "onRewardedVideo AdOpened", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRewardedVideoStarted() {
+        makeText(this, "Relax,& Sit Back!! Watch complete Video and Unlock Achievements", LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onRewardedVideoCompleted() {
+
+
     }
 }

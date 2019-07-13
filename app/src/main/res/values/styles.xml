@@ -85,7 +85,7 @@
 
     <style name="SignOutButton" parent="@style/GameButton">
         <item name="android:background">@color/SignOutButtonBackground</item>
-        <item name="android:textColor">@color/SignOutButtonTextColor</item>
+        <item name="android:textColor">@color/AccentColor</item>
     </style>
 
 
