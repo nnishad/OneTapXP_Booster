@@ -557,21 +557,23 @@ public class MainActivity extends Activity implements
 
     @Override
     public void onRewarded(RewardItem reward) {
-        Toast.makeText(this, "onRewarded! currency: " + reward.getType() + "  amount: " +
-                reward.getAmount(), Toast.LENGTH_SHORT).show();
+
         // Reward the user.
         Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .unlock(getString(R.string.achievement_level_2));
         Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .submitScore(getString(R.string.leaderboard_leaderboard), 19500);
+        Toast.makeText(this, "Level 2 Unlocked", Toast.LENGTH_SHORT).show();
         Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .unlock(getString(R.string.achievement_level_3));
         Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .submitScore(getString(R.string.leaderboard_leaderboard), 19500);
+        Toast.makeText(this, "Level 3 Unlocked", Toast.LENGTH_SHORT).show();
         Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .unlock(getString(R.string.achievement_level_4));
         Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .submitScore(getString(R.string.leaderboard_leaderboard), 19500);
+        Toast.makeText(this, "Level 4 Unlocked", Toast.LENGTH_SHORT).show();
 
     }
 
