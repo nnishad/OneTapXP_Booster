@@ -281,9 +281,25 @@ public class MainActivity extends Activity implements
                         }
                     }, 13000);
                 } catch (ActivityNotFoundException e) {
+                        
                     startActivity(new Intent(Intent.ACTION_VIEW,
                             Uri.parse("http://instagram.com/nightowldevelopers")));
+makeText(MainActivity.this,"Follow Us \n& Unlock your Achievement", LENGTH_SHORT).show();
+                    Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                            .unlock(getString(R.string.achievement_instagram_achievement));
+                    Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                            .submitScore(getString(R.string.leaderboard_leaderboard), 50000);
+                    handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            // Do something after 5s = 5000ms
+                            MediaPlayer mPlayer = MediaPlayer.create(MainActivity.this, R.raw.ta_da_sound_click);
+                            mPlayer.start();
+                            makeText(MainActivity.this,"Hurrah! Your Instagram Achievement is Unlocked !!", LENGTH_LONG).show();
 
+                        }
+                    }, 13000);
                 }
                 break;
             case R.id.developershare:
