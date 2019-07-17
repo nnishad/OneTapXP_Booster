@@ -233,9 +233,6 @@ public class MainActivity extends Activity implements
 
 
 
-                // play a single-player game
-                //resetGameVars();
-                //startGame(false);
                 break;
             case R.id.button_sign_in:
                 Log.d(TAG, "Sign-in button clicked");
@@ -485,10 +482,7 @@ makeText(MainActivity.this,"Follow Us \n& Unlock your Achievement", LENGTH_SHORT
 
                 onDisconnected();
 
-                new AlertDialog.Builder(this)
-                        .setMessage(message)
-                        .setNeutralButton(android.R.string.ok, null)
-                        .show();
+            startSignInIntent();
             }
         }
         super.onActivityResult(requestCode, resultCode, intent);
