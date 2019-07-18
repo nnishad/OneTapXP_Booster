@@ -233,9 +233,6 @@ public class MainActivity extends Activity implements
 
 
 
-                // play a single-player game
-                //resetGameVars();
-                //startGame(false);
                 break;
             case R.id.button_sign_in:
                 Log.d(TAG, "Sign-in button clicked");
@@ -281,9 +278,25 @@ public class MainActivity extends Activity implements
                         }
                     }, 13000);
                 } catch (ActivityNotFoundException e) {
+                        
                     startActivity(new Intent(Intent.ACTION_VIEW,
                             Uri.parse("http://instagram.com/nightowldevelopers")));
+makeText(MainActivity.this,"Follow Us \n& Unlock your Achievement", LENGTH_SHORT).show();
+                    Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                            .unlock(getString(R.string.achievement_instagram_achievement));
+                    Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                            .submitScore(getString(R.string.leaderboard_leaderboard), 50000);
+                    handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            // Do something after 5s = 5000ms
+                            MediaPlayer mPlayer = MediaPlayer.create(MainActivity.this, R.raw.ta_da_sound_click);
+                            mPlayer.start();
+                            makeText(MainActivity.this,"Hurrah! Your Instagram Achievement is Unlocked !!", LENGTH_LONG).show();
 
+                        }
+                    }, 13000);
                 }
                 break;
             case R.id.developershare:
@@ -469,10 +482,7 @@ public class MainActivity extends Activity implements
 
                 onDisconnected();
 
-                new AlertDialog.Builder(this)
-                        .setMessage(message)
-                        .setNeutralButton(android.R.string.ok, null)
-                        .show();
+            startSignInIntent();
             }
         }
         super.onActivityResult(requestCode, resultCode, intent);
