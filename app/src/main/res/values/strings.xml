@@ -35,4 +35,5 @@
     <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
     <string name="ad_unit_id">ca-app-pub-9659269658536774/6742499649</string>
     <string name="vdo_ad_unit_id">ca-app-pub-9659269658536774/4844068386</string>
+    <string name="admob_interstitial_id">ca-app-pub-9659269658536774/8151125099</string>
 </resources>
