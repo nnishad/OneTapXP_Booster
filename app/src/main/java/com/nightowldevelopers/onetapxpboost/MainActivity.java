@@ -21,8 +21,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
@@ -58,6 +60,7 @@ import static android.widget.Toast.makeText;
 public class MainActivity extends Activity implements
         View.OnClickListener, RewardedVideoAdListener {
     private AdView mAdView;
+    private InterstitialAd interstitial;
     private RewardedVideoAd mRewardedVideoAd;
     protected static final int RC_LEADERBOARD_UI = 9004;
     final static String TAG = "OneTapXPBoost";
@@ -121,7 +124,30 @@ public class MainActivity extends Activity implements
         mRewardedVideoAd.setRewardedVideoAdListener(this);
 
         loadRewardedVideoAd();
+        AdRequest adIRequest = new AdRequest.Builder().build();
 
+        // Prepare the Interstitial Ad Activity
+        interstitial = new InterstitialAd(MainActivity.this);
+        // Insert the Ad Unit ID
+        interstitial.setAdUnitId(getString(R.string.admob_interstitial_id));
+        // Interstitial Ad load Request
+        interstitial.loadAd(adIRequest);
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Do something after 5s = 5000ms
+                // Prepare an Interstitial Ad Listener
+                interstitial.setAdListener(new AdListener()
+                {
+                    public void onAdLoaded()
+                    {
+                        // Call displayInterstitial() function when the Ad loads
+                        displayInterstitial();
+                    }
+                });
+            }
+        }, 3000);
         /** Rewarded Video Ends*/
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -142,7 +168,13 @@ public class MainActivity extends Activity implements
     private void loadRewardedVideoAd() {
         mRewardedVideoAd.loadAd(getString(R.string.vdo_ad_unit_id), new AdRequest.Builder().build());
     }
-
+    public void displayInterstitial()
+    {
+        // If Interstitial Ads are loaded then show else show nothing.
+        if (interstitial.isLoaded()) {
+            interstitial.show();
+        }
+    }
     @Override
     public void onResume() {
         mRewardedVideoAd.resume(this);
