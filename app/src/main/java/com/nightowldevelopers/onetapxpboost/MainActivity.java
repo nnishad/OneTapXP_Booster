@@ -261,7 +261,7 @@ public class MainActivity extends Activity implements
                             mRewardedVideoAd.show();
                         }
                     }
-                }, 6000);
+                }, 5000);
 
 
 
@@ -615,17 +615,8 @@ makeText(MainActivity.this,"Follow Us \n& Unlock your Achievement", LENGTH_SHORT
     }
     @Override
     public void onBackPressed() {
-        new AlertDialog.Builder(this)
-                .setTitle("Really Exit?")
-                .setMessage("Are you sure you want to exit?")
-                .setNegativeButton(android.R.string.no, null)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface arg0, int arg1) {
-
-                        MainActivity.super.onBackPressed();
-                    }
-                }).create().show();
+        finishAffinity();
+        MainActivity.super.onBackPressed();
     }
 
     @Override
@@ -696,8 +687,8 @@ makeText(MainActivity.this,"Follow Us \n& Unlock your Achievement", LENGTH_SHORT
         Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .submitScore(getString(R.string.leaderboard_leaderboard), 19500);
         makeText(this, "Congratulation you won 80k Exp Points", LENGTH_SHORT).show();
-        Button btn = findViewById(R.id.button_single_player_2);
-        btn.setEnabled(false);
+       // Button btn = findViewById(R.id.button_single_player_2);
+        //btn.setEnabled(true);
 
 
     }
