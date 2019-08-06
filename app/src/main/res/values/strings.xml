@@ -16,7 +16,7 @@
 
 <resources>
     <string name="app_name">One Tap XP Boost</string>
-    <string name="game_title">Hit It Up!</string>
+    <string name="game_title">XP Booster!</string>
     <string name="game_blurb">You are <b>few seconds away</b>\nto won <b>Max XP</b> to your Account.</string>
     <string name="single_player_explanation">Get XP to Maxx</string>
     <string name="invite_players_explanation">Your Leaderboard</string>
@@ -28,12 +28,10 @@
     <string name="match_error_already_rematched">This rematch has already been started!</string>
     <string name="network_error_operation_failed">Network error: Operation failed</string>
     <string name="internal_error">Internal error</string>
-    <string name="unexpected_status">Unexpected status: %1$s</string>
     <string name="match_error_inactive_match">This match is inactive.</string>
     <string name='match_error_locally_modified'>This match has locally-modified data.  This operation cannot be performed until the match is sent to the server.</string>
 
     <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
-    <string name="ad_unit_id">ca-app-pub-9659269658536774/6742499649</string>
     <string name="vdo_ad_unit_id">ca-app-pub-9659269658536774/4844068386</string>
     <string name="admob_interstitial_id">ca-app-pub-9659269658536774/8151125099</string>
 </resources>
