@@ -235,33 +235,63 @@ public class MainActivity extends Activity implements
 
     @Override
     public void onClick(View v) {
-        Button buttnanim;
+        Handler handler = new Handler();
+        AlertDialog.Builder builder;
         switch (v.getId()) {
             //case R.id.button_single_player:
             case R.id.button_single_player_2:
-                Animation animation;
-                animation = AnimationUtils.loadAnimation(getApplicationContext(),
-                        R.anim.fade_in);
-                buttnanim= findViewById(R.id.button_single_player_2);
-                buttnanim.startAnimation(animation);
-                MediaPlayer mPlayer = MediaPlayer.create(MainActivity.this, R.raw.ta_da_sound_click);
-                mPlayer.start();
-                makeText(this, "Relax,& Sit Back!! \nYour Achievements are Unlocking", LENGTH_LONG).show();
-
                 Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                         .unlock(getString(R.string.achievement_level_1));
                 Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                         .submitScore(getString(R.string.leaderboard_leaderboard), 2500);
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        // Do something after 5s = 5000ms
-                        if (mRewardedVideoAd.isLoaded()) {
-                            mRewardedVideoAd.show();
-                        }
-                    }
-                }, 5000);
+                builder = new AlertDialog.Builder(this);
+                builder.setMessage("You'll get your Achievement after this Rewarded Video") .setTitle("Redeem Rewards");
+
+                //Setting message manually and performing action on button click
+                builder.setMessage("You'll get your Achievement after this Rewarded Video")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                               // finish();
+                                Button buttnanim;
+                                Animation animation;
+                                animation = AnimationUtils.loadAnimation(getApplicationContext(),
+                                        R.anim.fade_in);
+                                buttnanim= findViewById(R.id.button_single_player_2);
+                                buttnanim.startAnimation(animation);
+                                MediaPlayer mPlayer = MediaPlayer.create(MainActivity.this, R.raw.ta_da_sound_click);
+                                mPlayer.start();
+                                Toast.makeText(getApplicationContext(), "Relax,& Sit Back!! \nYour Achievements are Unlocking", LENGTH_LONG).show();
+
+
+                                Handler handler = new Handler();
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        // Do something after 5s = 5000ms
+                                        if (mRewardedVideoAd.isLoaded()) {
+                                            mRewardedVideoAd.show();
+                                        }
+                                    }
+                                }, 5000);
+                               // Toast.makeText(getApplicationContext(),"you choose yes action for alertbox",Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //  Action for 'NO' Button
+                                dialog.cancel();
+                                Toast.makeText(getApplicationContext(),"Rewarded Video Cancelled",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                //Creating dialog box
+                AlertDialog alert = builder.create();
+                //Setting the title manually
+                alert.setTitle("Redeem Rewards");
+                alert.show();
+
+
+
 
 
 
@@ -643,7 +673,7 @@ makeText(MainActivity.this,"Follow Us \n& Unlock your Achievement", LENGTH_SHORT
                 .unlock(getString(R.string.achievement_level_6__follow_us_on_instagram_and_unlock_level_7));
         Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .submitScore(getString(R.string.leaderboard_leaderboard), 192500);
-        makeText(this, "Congratulation you won 60k Exp Points", LENGTH_SHORT).show();
+        makeText(this, "Congratulation you won 80k Exp Points", LENGTH_SHORT).show();
     }
 
     @Override
